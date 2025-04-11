@@ -1,0 +1,26 @@
+{
+    "name": "Shared Variables",
+    "description": "",
+    "dependencies": {
+        "core": "*",
+        "v3": "*",
+        "funk": "*"
+    },
+    "files": [
+        "main.ts",
+        "README.md",
+        "shared.ts"
+    ],
+    "testFiles": [
+        "test.ts"
+    ],
+    "targetVersions": {
+        "target": "7.0.3",
+        "targetId": "calliopemini"
+    },
+    "supportedTargets": [
+        "calliopemini"
+    ],
+    "preferredEditor": "tsprj",
+    "languageRestriction": "javascript-only"
+}
