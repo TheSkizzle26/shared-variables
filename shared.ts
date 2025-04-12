@@ -3,21 +3,12 @@
  */
 //% weight=100 color=#f03056 icon="ᯤ"
 namespace shared {
-    /**
-     * reference only, not used
-     * TODO: describe your function here
-     * @param n describe parameter here, eg: 5
-     * @param s describe parameter here, eg: "Hello"
-     * @param e describe parameter here
-     */
-    //% block
-    function foo (n: number, s: string): void {
-        // Add code here
-    }
-
     let names: any[] = []
     let values: any[] = []
 
+    /**
+     * @param group Radio group that is going to be used, default=1.
+     */
     //%block
     export function init(group: number = 1) {
         radio.setGroup(group)
@@ -55,19 +46,23 @@ namespace shared {
         }
     }
 
+    /**
+     * @param var_name Name of the variable to be set.
+     * @param var_value New value of the variable.
+     */
     //%block
-    export function set (variable_name: string, value: number|string|any[]) { //TODO: sync_only
-        if (names.indexOf(variable_name) == -1) {
-            names.push(variable_name)
-            values.push(value)
+    export function set (var_name: string, var_value: number|string|any[]) { //TODO: sync_only
+        if (names.indexOf(var_name) == -1) {
+            names.push(var_name)
+            values.push(var_value)
         }
         else {
-            values[names.indexOf(variable_name)] = value
+            values[names.indexOf(var_name)] = var_value
         }
 
         let variable_type = null
 
-        switch (typeof value) {
+        switch (typeof var_value) {
             case "number":
                 variable_type = "n"
                 break
@@ -77,15 +72,18 @@ namespace shared {
                 variable_type = "l"
         }
 
-        let str = "s;" + variable_name + ";" + variable_type + ";" + JSON.stringify(value)
+        let str = "s;" + var_name + ";" + variable_type + ";" + JSON.stringify(var_value)
 
         radio.sendString(str)
     }
 
+    /**
+     * @param var_name Name of the variable whose value is returned.
+     */
     //%block
-    export function get (variable_name: string) {
-        if (names.indexOf(variable_name) == -1) { return }
-        return values[names.indexOf(variable_name)]
+    export function get (var_name: string) {
+        if (names.indexOf(var_name) == -1) { return }
+        return values[names.indexOf(var_name)]
     }
 }
 
