@@ -82,7 +82,7 @@ namespace shared {
      */
     //%block
     export function get (var_name: string) {
-        if (names.indexOf(var_name) == -1) { return }
+        if (names.indexOf(var_name) == -1) { return 0 }
         return values[names.indexOf(var_name)]
     }
 }
