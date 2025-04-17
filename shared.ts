@@ -5,6 +5,7 @@
 namespace shared {
     let names: any[] = []
     let values: any[] = []
+    let received: any[] = []
 
     /**
      * @param group Radio group that is going to be used, default=1.
@@ -16,11 +17,17 @@ namespace shared {
     }
 
     export function receive (received_string: string) { //TODO: sync_only
+        if (received_string.indexOf("$") != 0) {
+            let split = received_string.split(";")
+            received.push(new Packet(split[0], split[1]))
+            return
+        }
+        
         let parts = received_string.split(";")
         let task = parts[0]
         let variable_name = parts[1]
 
-        if (task == "s") { //set
+        if (task == "$s") { //set
             let variable_type = parts[2]
             let value = null
 
@@ -72,7 +79,7 @@ namespace shared {
                 variable_type = "l"
         }
 
-        let str = "s;" + var_name + ";" + variable_type + ";" + JSON.stringify(var_value)
+        let str = "$s;" + var_name + ";" + variable_type + ";" + JSON.stringify(var_value)
 
         radio.sendString(str)
     }
@@ -84,6 +91,22 @@ namespace shared {
     export function get (var_name: string) {
         if (names.indexOf(var_name) == -1) { return 0 }
         return values[names.indexOf(var_name)]
+    }
+
+    /**
+     * @param value_type Type of the packet to be send, fpr example "start_game"
+     * @param value The value to be send, for example the name of a player.
+     */
+    //%block
+    export function send (value_type: string, value: string|null = null) {
+        radio.sendString(value_type + ";" + value)
+    }
+
+    //%block
+    export function get_received () {
+        let copy = received.slice()
+        received = []
+        return copy
     }
 }
 
